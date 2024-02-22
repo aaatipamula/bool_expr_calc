@@ -86,6 +86,6 @@ Someone will then merge it into the main branch and delete your branch you made.
 
 ![github-pr-make](../assets/images/github-pr-make.png)
 
-![github-pr-confim](../assets/images/github-pr-confim.png)
+![github-pr-confirm](../assets/images/github-pr-confirm.png)
 
 ![github-pr-merged](../assets/images/github-pr-merged.png)
