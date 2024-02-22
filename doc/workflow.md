@@ -28,11 +28,11 @@ If you changed the name of your file replace `id_rsa` with the name of your file
 
 Go to https://github.com and open your settings. Go to the `SSH and GPG keys` tab under the *Access* section.
 
-![ssh-setting-github](assets/images/ssh-setting-github.png)
+![ssh-setting-github](../assets/images/ssh-setting-github.png)
 
 Hit *New SSH key* and paste your *public-key* into the big *Key* text box. Finish by hitting *Add SSH key*.
 
-![add-ssh-key](assets/images/add-ssh-key.png)
+![add-ssh-key](../assets/images/add-ssh-key.png)
 
 4. Test your access
 
@@ -48,7 +48,7 @@ git clone git@github.com:aaatipamula/bool_expr_calc.git
 
 Hit *Clone Repository* and then *Clone from GitHub* under the command palette. 
 
-![vscode-github-clone](assets/images/vscode-github-clone.png)
+![vscode-github-clone](../assets/images/vscode-github-clone.png)
 
 2. Link your GitHub account with VS Code
 
@@ -56,7 +56,7 @@ Hit *Clone Repository* and then *Clone from GitHub* under the command palette.
 
 Then choose a folder to save the repository in.
 
-![vscode-repository](assets/images/vscode-repository.png)
+![vscode-repository](../assets/images/vscode-repository.png)
 
 4. Allow VS Code to sign in using GitHub
 
@@ -70,7 +70,7 @@ Then choose a folder to save the repository in.
 
 You can do this in GitHub by going to the [repository](https://github.com/aaatipamula/bool_expr_calc) and hitting the `main` branch button, typing out the name of your new branch, and hitting *Create branch <Your-Branch-Name> from main*. You then have to `git pull` you changes to your local machine.
 
-![github-branch](assets/images/github-branch.png)
+![github-branch](../assets/images/github-branch.png)
 
 You can also just do it on your local machine by swapping branches to *main* with `git checkout main` and then typing out `git branch <Your-Branch-Name>`
 
@@ -84,5 +84,8 @@ This can be done by going to the [repository](https://github.com/aaatipamula/boo
 
 Someone will then merge it into the main branch and delete your branch you made. To make any more changes restart the process just described.
 
-![github-pr](assets/images/github-pr.png)
+![github-pr-make](../assets/images/github-pr-make.png)
 
+![github-pr-confim](../assets/images/github-pr-confim.png)
+
+![github-pr-merged](../assets/images/github-pr-merged.png)
