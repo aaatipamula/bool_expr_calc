@@ -66,7 +66,7 @@ Then choose a folder to save the repository in.
 
 1. Make a new branch from *main*
 
-> You can name your branch whatever you like but for convention would suggest the format: <firstname\>_DD-MM-YY
+> You can name your branch whatever you like but for convention would suggest the format: <firstname\>_MM-DD-YY
 
 You can do this in GitHub by going to the [repository](https://github.com/aaatipamula/bool_expr_calc) and hitting the `main` branch button, typing out the name of your new branch, and hitting *Create branch <Your-Branch-Name> from main*. You then have to `git pull` you changes to your local machine.
 
