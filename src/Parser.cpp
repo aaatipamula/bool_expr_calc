@@ -1,9 +1,24 @@
-#include <list>
 #include "Parser.h"
+
+Token Parser::curr_tkn() {
+  return tokens.at(curr_pos);
+}
+
+Token Parser::prev_tkn() {
+  return tokens.at(curr_pos - 1);
+}
+
+bool Parser::match(TokenType type) {
+  if (curr_tkn().type == type) {
+    curr_pos++;
+    return true;
+  }
+  return false;
+}
 
 Expr Parser::parseXor() {
   Expr expr = parseNand();
-  while (match(/**/)) {
+  while (match(XOR)) {
     Token op = prev_tkn();
     Expr _right = parseNand();
     expr = Binary(expr, op, _right);
@@ -13,7 +28,7 @@ Expr Parser::parseXor() {
 
 Expr Parser::parseNand() {
   Expr expr = parseOr();
-  while (match(/**/)) {
+  while (match(NAND)) {
     Token op = prev_tkn();
     Expr _right = parseOr();
     expr = Binary(expr, op, _right);
@@ -23,7 +38,7 @@ Expr Parser::parseNand() {
 
 Expr Parser::parseOr() {
   Expr expr = parseAnd();
-  while (match(/**/)) {
+  while (match(OR)) {
     Token op = prev_tkn();
     Expr _right = parseAnd();
     expr = Binary(expr, op, _right);
@@ -33,7 +48,7 @@ Expr Parser::parseOr() {
 
 Expr Parser::parseAnd() {
   Expr expr = parseNot();
-  while (match(/**/)) {
+  while (match(AND)) {
     Token op = prev_tkn();
     Expr _right = parseNot();
     expr = Binary(expr, op, _right);
@@ -42,7 +57,7 @@ Expr Parser::parseAnd() {
 }
 
 Expr Parser::parseNot() {
-  if (match(/**/)) {
+  if (match(NOT)) {
     Token op = prev_tkn();
     Expr _right = parseAnd();
     return Unary(op, _right);
@@ -51,19 +66,21 @@ Expr Parser::parseNot() {
 }
 
 Expr Parser::primary() {
-  if (match(/**/)) {
+  if (match(VAL)) {
     bool value = curr_tkn().value;
     return Literal(value);
   }
 
-  if (match(/**/)) {
-    expr = parseXor();
+  if (match(LPAREN)) {
+    Expr expr = parseXor();
     TokenType curr = curr_tkn().type;
     if (curr != RPAREN) {
-      throw "Some error"
+      throw "Missing matching parenthesis.";
     }
     curr_pos++;
-    return Group(expr)
+    return Grouping(expr);
   }
+
+  throw "Invalid expression found.";
 }
 

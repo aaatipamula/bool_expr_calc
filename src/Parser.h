@@ -1,10 +1,7 @@
-#ifndef EXPR_H
-#define EXPR_H
+#ifndef PARSER_H
+#define PARSER_H
 
-#include <any>
-#include <memory>
-#include <utility>
-#include <list>
+#include <vector>
 #include "Tokens.h"
 
 class Expr {
@@ -13,41 +10,41 @@ class Expr {
 };
 
 class Binary : public Expr {
-  std::unique_ptr<Expr> left;
+  Expr &left;
   Token op;
-  std::unique_ptr<Expr> right;
+  Expr &right;
   public:
-    Binary(std::unique_ptr<Expr> left, Token op, std::unique_ptr<Expr> right)
-      : left(std::move(left)), op(op), right(std::move(right)) {}
+    Binary(Expr &left, Token op, Expr &right)
+      : left(left), op(op), right(right) {}
 };
 
 class Unary : public Expr {
   Token op;
-  std::unique_ptr<Expr> right;
+  Expr &right;
   public:
-    Unary(Token op, std::unique_ptr<Expr> right)
-      : op(op), right(std::move(right)) {}
+    Unary(Token op, Expr &right)
+      : op(op), right(right) {}
 };
 
 class Grouping : public Expr {
-  std::unique_ptr<Expr> expression;
+  Expr &expression;
   public:
-  Grouping(std::unique_ptr<Expr> expression)
-    : expression(std::move(expression)) {}
+    Grouping(Expr &expression)
+      : expression(expression) {}
 };
 
 class Literal : public Expr {
   bool value;
   public:
-  Literal(bool value)
-    : value(value) {}
+    Literal(bool value)
+      : value(value) {}
 };
 
 class Parser {
   int curr_pos = 0;
-  std::list<Token> tokens;
+  std::vector<Token> tokens;
 
-  bool match();
+  bool match(TokenType type);
   Token curr_tkn();
   Token prev_tkn();
 
@@ -59,7 +56,7 @@ class Parser {
   Expr primary();
 
   public:
-    Parser(std::list<Token> tokens)
+    Parser(std::vector<Token> tokens)
       : tokens(tokens) {}
 
     Expr parse();
