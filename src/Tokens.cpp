@@ -1,5 +1,9 @@
 #include "Tokens.h"
 
+bool Token::operator==(const TokenType rhs) {
+  return rhs == type;
+}
+
 std::vector<Token> Tokenizer::tokenize(std::string line) {
 
   std::vector<Token> tokens;
