@@ -4,11 +4,10 @@ bool Token::operator==(const TokenType rhs) {
   return rhs == type;
 }
 
-std::vector<Token> Tokenizer::tokenize(std::string line) {
-
+std::vector<Token> tokenize(std::string line) {
   std::vector<Token> tokens;
 
-  for (int i = 0; i < line.length(); i ++) {
+  for (int i = 0; i < line.size(); i++) {
     switch(line[i]) {
       case '(':
         tokens.push_back(Token(LPAREN));
