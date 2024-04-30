@@ -1,5 +1,7 @@
 #include <iostream>
+#include <stdexcept>
 #include <string>
+#include <sys/types.h>
 #include "Parser.h"
 
 /**
@@ -18,10 +20,11 @@ void check_exit(std::string val) {
  */
 int main(int argc, char* argv[]){
   if (argc <= 1) {
-    std::cout << "Please enter an expression." << "\n";
+    std::cout << "Please enter an expression.\n";
     exit(1);
-  } else if (argc > 1) {
-    std::cout << "Please enter only one expression.";
+  } else if (argc > 2) {
+    std::cout << "Please enter only one expression.\n";
+    exit(1);
   }
 
   Parser parser;
@@ -36,6 +39,8 @@ int main(int argc, char* argv[]){
 
   } catch (const char *error) {
     std::cout << error << "\n";
+  } catch (const std::out_of_range error) {
+    std::cout << "Encountered mismatched parenthesis.\n";
   }
 
   return 0;

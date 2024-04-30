@@ -1,12 +1,13 @@
 #include "Tokens.h"
 
 bool Token::operator==(const TokenType rhs) {
-  return rhs == type;
+  return rhs == type; // Compare type
 }
 
 std::vector<Token> tokenize(std::string line) {
-  std::vector<Token> tokens;
+  std::vector<Token> tokens; // Final token list
 
+  // Loop through input string
   for (int i = 0; i < line.size(); i++) {
     switch(line[i]) {
       case '(':
@@ -42,7 +43,7 @@ std::vector<Token> tokenize(std::string line) {
       case ' ':
         break;
       default:
-        throw "Invalid character found";
+        throw "Invalid character found"; // Invalid character found
     }
   }
 

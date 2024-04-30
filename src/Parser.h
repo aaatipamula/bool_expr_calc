@@ -65,9 +65,15 @@
 /*       : value(value), type(type) {} */
 /* }; */
 
+/**
+ * Associated parsing functionns
+ */
 class Parser {
   int curr_pos = 0;
 
+  /**
+   * Match the current token with the type and advance if matched
+   */
   bool match(TokenType type);
   Token curr_tkn();
   Token prev_tkn();

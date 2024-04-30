@@ -10,7 +10,9 @@ Token Parser::prev_tkn() {
 }
 
 bool Parser::match(TokenType type) {
+  // Invalid range return false
   if (curr_pos >= tokens.size()) return false;
+  // Match type and consume if matched
   if (curr_tkn() == type) {
     curr_pos++;
     return true;
@@ -19,9 +21,10 @@ bool Parser::match(TokenType type) {
 }
 
 bool Parser::parseXor() {
+  // Parse for XOR first
   bool expr = parseNand();
+  // then contine parsing for NAND
   while (match(XOR)) {
-    Token op = prev_tkn();
     bool _right = parseNand();
     expr = expr != _right;
   }
@@ -29,9 +32,10 @@ bool Parser::parseXor() {
 }
 
 bool Parser::parseNand() {
+  // Parse for OR first
   bool expr = parseOr();
+  // Then continue parsing for XOR
   while (match(NAND)) {
-    Token op = prev_tkn();
     bool _right = parseOr();
     expr = not(expr && _right);
   }
@@ -39,9 +43,10 @@ bool Parser::parseNand() {
 }
 
 bool Parser::parseOr() {
+  // Parse for AND first
   bool expr = parseAnd();
+  // Then continue parsing for OR
   while (match(OR)) {
-    Token op = prev_tkn();
     bool _right = parseAnd();
     expr = expr || _right;
   }
@@ -49,9 +54,10 @@ bool Parser::parseOr() {
 }
 
 bool Parser::parseAnd() {
+  // Parse for unary operator first
   bool expr = parseNot();
+  // Then continue parsing for AND
   while (match(AND)) {
-    Token op = prev_tkn();
     bool _right = parseNot();
     expr = expr && _right;
   }
@@ -59,19 +65,22 @@ bool Parser::parseAnd() {
 }
 
 bool Parser::parseNot() {
+  // Parse for a unary operator if exists
   if (match(NOT)) {
-    Token op = prev_tkn();
-    bool _right = parseAnd();
+    bool _right = parseNot();
     return not(_right);
   }
+  // Then parse for a primary
   return primary();
 }
 
 bool Parser::primary() {
+  // Match for a literal value
   if (match(VAL)) {
     return prev_tkn().value;
   }
 
+  // Match for grouped expression
   if (match(LPAREN)) {
     bool expr = parseXor();
     TokenType curr = curr_tkn().type;
@@ -82,11 +91,13 @@ bool Parser::primary() {
     return expr;
   }
 
+  // If no token was parsed we have an invalid expression
   throw "Invalid expression found.";
 }
 
 bool Parser::parse() {
   bool expr = parseXor();
+  // Parsing failed if we didn't reach the end of the tokens
   if (curr_pos != tokens.size()) {
     throw "Invalid token sequence.";
   }
