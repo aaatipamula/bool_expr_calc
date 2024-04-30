@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include <iostream>
 
 Token Parser::curr_tkn() {
   return tokens.at(curr_pos);
@@ -9,78 +10,86 @@ Token Parser::prev_tkn() {
 }
 
 bool Parser::match(TokenType type) {
-  if (curr_tkn().type == type) {
+  if (curr_pos >= tokens.size()) return false;
+  if (curr_tkn() == type) {
     curr_pos++;
     return true;
   }
   return false;
 }
 
-Expr Parser::parseXor() {
-  Expr expr = parseNand();
+bool Parser::parseXor() {
+  bool expr = parseNand();
   while (match(XOR)) {
     Token op = prev_tkn();
-    Expr _right = parseNand();
-    expr = Binary(expr, op, _right);
+    bool _right = parseNand();
+    expr = expr != _right;
   }
   return expr;
 }
 
-Expr Parser::parseNand() {
-  Expr expr = parseOr();
+bool Parser::parseNand() {
+  bool expr = parseOr();
   while (match(NAND)) {
     Token op = prev_tkn();
-    Expr _right = parseOr();
-    expr = Binary(expr, op, _right);
+    bool _right = parseOr();
+    expr = not(expr && _right);
   }
   return expr;
 }
 
-Expr Parser::parseOr() {
-  Expr expr = parseAnd();
+bool Parser::parseOr() {
+  bool expr = parseAnd();
   while (match(OR)) {
     Token op = prev_tkn();
-    Expr _right = parseAnd();
-    expr = Binary(expr, op, _right);
+    bool _right = parseAnd();
+    expr = expr || _right;
   }
   return expr;
 }
 
-Expr Parser::parseAnd() {
-  Expr expr = parseNot();
+bool Parser::parseAnd() {
+  bool expr = parseNot();
   while (match(AND)) {
     Token op = prev_tkn();
-    Expr _right = parseNot();
-    expr = Binary(expr, op, _right);
+    bool _right = parseNot();
+    expr = expr && _right;
   }
   return expr;
 }
 
-Expr Parser::parseNot() {
+bool Parser::parseNot() {
   if (match(NOT)) {
     Token op = prev_tkn();
-    Expr _right = parseAnd();
-    return Unary(op, _right);
+    bool _right = parseAnd();
+    return not(_right);
   }
   return primary();
 }
 
-Expr Parser::primary() {
+bool Parser::primary() {
   if (match(VAL)) {
-    bool value = curr_tkn().value;
-    return Literal(value);
+    return prev_tkn().value;
   }
 
   if (match(LPAREN)) {
-    Expr expr = parseXor();
+    bool expr = parseXor();
     TokenType curr = curr_tkn().type;
     if (curr != RPAREN) {
       throw "Missing matching parenthesis.";
     }
     curr_pos++;
-    return Grouping(expr);
+    return expr;
   }
 
   throw "Invalid expression found.";
+}
+
+bool Parser::parse() {
+  bool expr = parseXor();
+  if (curr_pos != tokens.size()) {
+    throw "Invalid token sequence.";
+  }
+  return expr;
 }
 

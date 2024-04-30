@@ -4,8 +4,9 @@ CXXFLAGS = -g -Wall
 SRC_DIR = src
 BIN_DIR = bin
 
-EXE = $(BIN_DIR)/main
-SRC = $(wildcard $(SRC_DIR)/*.cpp)
+EXE = $(BIN_DIR)/lcalc
+# SRC = $(wildcard $(SRC_DIR)/*.cpp)
+SRC= $(filter-out src/Evaluator.cpp src/Tokenizemodule.cpp src/Interpreter.cpp, $(wildcard $(SRC_DIR)/*.cpp))
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(BIN_DIR)/%.o)
 	
 .PHONY: all clean

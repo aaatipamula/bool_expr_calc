@@ -4,62 +4,84 @@
 #include <vector>
 #include "Tokens.h"
 
-class Expr {
-  public:
-    virtual ~Expr() = default;
-};
+/* enum NodeType { */
+/*   BINARY, UNARY, GROUPING, LITERAL */
+/* }; */
 
-class Binary : public Expr {
-  Expr &left;
-  Token op;
-  Expr &right;
-  public:
-    Binary(Expr &left, Token op, Expr &right)
-      : left(left), op(op), right(right) {}
-};
+/* class Expr { */
+/*   public: */
+/*     NodeType type; */
+/*     TokenType op; */
+/*     Expr *left; */
+/*     Expr *right; */
+/*     bool value; */
+/*     Expr *expr; */
 
-class Unary : public Expr {
-  Token op;
-  Expr &right;
-  public:
-    Unary(Token op, Expr &right)
-      : op(op), right(right) {}
-};
+/*     virtual ~Expr() = default; */
 
-class Grouping : public Expr {
-  Expr &expression;
-  public:
-    Grouping(Expr &expression)
-      : expression(expression) {}
-};
+/*     Expr( */
+/*       NodeType type, */
+/*       TokenType op = UNDEF, */
+/*       Expr *left = nullptr, */
+/*       Expr *right = nullptr, */
+/*       bool value = false, */
+/*       Expr *expr = nullptr */
+/*     ) */
+/*       : type(type), op(op), left(left), right(right), value(value), expr(expr) {} */
+/* }; */
 
-class Literal : public Expr {
-  bool value;
-  public:
-    Literal(bool value)
-      : value(value) {}
-};
+/* class Binary : public Expr { */
+/*   public: */
+/*     Expr &left; */
+/*     Token op; */
+/*     Expr &right; */
+/*     NodeType type; */
+/*     Binary(Expr &left, Token op, Expr &right, NodeType type) */
+/*       : left(left), op(op), right(right), type(type) {} */
+/* }; */
+
+/* class Unary : public Expr { */
+/*   public: */
+/*     Token op; */
+/*     Expr &right; */
+/*     NodeType type; */
+/*     Unary(Token op, Expr &right, NodeType type) */
+/*       : op(op), right(right), type(type) {} */
+/* }; */
+
+/* class Grouping : public Expr { */
+/*   public: */
+/*     Expr &expression; */
+/*     NodeType type; */
+/*     Grouping(Expr &expression, NodeType type) */
+/*       : expression(expression), type(type) {} */
+/* }; */
+
+/* class Literal : public Expr { */
+/*   public: */
+/*     bool value; */
+/*     NodeType type; */
+/*     Literal(bool value, NodeType type) */
+/*       : value(value), type(type) {} */
+/* }; */
 
 class Parser {
   int curr_pos = 0;
-  std::vector<Token> tokens;
 
   bool match(TokenType type);
   Token curr_tkn();
   Token prev_tkn();
 
-  Expr parseXor();
-  Expr parseNand();
-  Expr parseOr();
-  Expr parseAnd();
-  Expr parseNot();
-  Expr primary();
+  bool parseXor();
+  bool parseNand();
+  bool parseOr();
+  bool parseAnd();
+  bool parseNot();
+  bool primary();
 
   public:
-    Parser(std::vector<Token> tokens)
-      : tokens(tokens) {}
-
-    Expr parse();
+    std::vector<Token> tokens;
+    bool parse();
 };
 
 #endif
