@@ -18,9 +18,10 @@ First navigate to the root of the project (the folder name on your computer). Af
 ```bash
 make
 ```
-You can then run the program with:
+
+The program accepts one command line argument as such:
 
 ```
-./bin/main
+./bin/lcalc "T | F"
 ```
 
