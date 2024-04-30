@@ -25,14 +25,7 @@ class Token {
       : type(type), value(value) {}
 };
 
-/**
- * Convert a line into a vector (array) of tokens
- * NOTE: No constructor needed for this
- */
-class Tokenizer {
-  public:
-    std::vector<Token> tokenize(std::string line);
-};
+std::vector<Token> tokenize(std::string line);
 
 #endif
 
